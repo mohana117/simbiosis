@@ -9,9 +9,6 @@ class SupabaseService {
 
   SupabaseClient get client => Supabase.instance.client;
 
-  // ==================== LISTINGS CRUD ====================
-
-  // Get all listings
   Future<List<SupabaseListing>> getListings() async {
     try {
       final response = await client
@@ -28,7 +25,6 @@ class SupabaseService {
     }
   }
 
-  // Get listings by state
   Future<List<SupabaseListing>> getListingsByState(String state) async {
     try {
       final response = await client
@@ -46,7 +42,6 @@ class SupabaseService {
     }
   }
 
-  // Get listings by sector/category
   Future<List<SupabaseListing>> getListingsBySector(String sector) async {
     try {
       final response = await client
@@ -64,7 +59,6 @@ class SupabaseService {
     }
   }
 
-  // Insert a new listing
   Future<SupabaseListing?> insertListing(OpenDataPoint listing) async {
     try {
       final supabaseListing = SupabaseListing(
@@ -97,7 +91,6 @@ class SupabaseService {
     }
   }
 
-  // Update a listing
   Future<SupabaseListing?> updateListing(SupabaseListing listing) async {
     if (listing.id == null) return null; // Ensure ID is present
 
@@ -105,7 +98,7 @@ class SupabaseService {
       final response = await client
           .from('listings')
           .update(listing.toJson())
-          .eq('id', listing.id!) // Safely pass non-null int
+          .eq('id', listing.id!)
           .select();
 
       if (response.isNotEmpty) {
@@ -118,7 +111,6 @@ class SupabaseService {
     }
   }
 
-  // Delete a listing
   Future<bool> deleteListing(int id) async {
     try {
       await client
@@ -132,9 +124,6 @@ class SupabaseService {
     }
   }
 
-  // ==================== PURCHASES CRUD ====================
-
-  // Get all purchases
   Future<List<SupabasePurchase>> getPurchases() async {
     try {
       final response = await client
@@ -151,7 +140,6 @@ class SupabaseService {
     }
   }
 
-  // Get purchases by status
   Future<List<SupabasePurchase>> getPurchasesByStatus(String status) async {
     try {
       final response = await client
@@ -169,7 +157,6 @@ class SupabaseService {
     }
   }
 
-  // Insert a new purchase
   Future<SupabasePurchase?> insertPurchase(PurchasedItem item) async {
     try {
       final supabasePurchase = SupabasePurchase(
@@ -205,7 +192,6 @@ class SupabaseService {
     }
   }
 
-  // Update purchase status
   Future<bool> updatePurchaseStatus(int id, String status) async {
     try {
       await client
@@ -219,9 +205,6 @@ class SupabaseService {
     }
   }
 
-  // ==================== USER PROFILES CRUD ====================
-
-  // Get user profile
   Future<UserProfile?> getUserProfile(String userId) async {
     try {
       final response = await client
@@ -239,7 +222,6 @@ class SupabaseService {
     }
   }
 
-  // Insert or update user profile (UPSERT)
   Future<UserProfile?> upsertUserProfile(Map<String, dynamic> profileData) async {
     try {
       final userId = client.auth.currentUser?.id;
@@ -265,9 +247,6 @@ class SupabaseService {
     }
   }
 
-  // ==================== AUTHENTICATION ====================
-
-  // Sign up
   Future<AuthResponse> signUp(String email, String password) async {
     return await client.auth.signUp(
       email: email,
@@ -275,7 +254,6 @@ class SupabaseService {
     );
   }
 
-  // Sign in
   Future<AuthResponse> signIn(String email, String password) async {
     return await client.auth.signInWithPassword(
       email: email,
@@ -283,17 +261,14 @@ class SupabaseService {
     );
   }
 
-  // Sign out
   Future<void> signOut() async {
     await client.auth.signOut();
   }
 
-  // Get current user
   User? getCurrentUser() {
     return client.auth.currentUser;
   }
 
-  // Check if user is authenticated
   bool isAuthenticated() {
     return client.auth.currentUser != null;
   }

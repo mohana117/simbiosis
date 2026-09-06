@@ -19,7 +19,6 @@ class RegisterScreenState extends State<RegisterScreen> {
   final repNameInput = TextEditingController();
   final phoneInput = TextEditingController();
 
-  // Address fields - formatted
   final addrLine1Input = TextEditingController();
   final addrLine2Input = TextEditingController();
   final addrLine3Input = TextEditingController();
@@ -164,7 +163,6 @@ class RegisterScreenState extends State<RegisterScreen> {
 
     final prefs = await SharedPreferences.getInstance();
 
-    // Build formatted address
     final fullFormattedAddress =
         '${addrLine1Input.text.trim()}\n'
         '${addrLine2Input.text.trim()}'
@@ -175,8 +173,6 @@ class RegisterScreenState extends State<RegisterScreen> {
     await prefs.setString('companyName', companyInput.text.trim());
     await prefs.setString('repName', repNameInput.text.trim());
     await prefs.setString('phone', phoneInput.text.trim());
-
-    // Save address lines individually
     await prefs.setString('addrLine1', addrLine1Input.text.trim());
     await prefs.setString('addrLine2', addrLine2Input.text.trim());
     await prefs.setString('addrLine3', addrLine3Input.text.trim());
@@ -283,7 +279,6 @@ class RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Company Logo
                 GestureDetector(
                   onTap: pickCompanyLogo,
                   child: CircleAvatar(

@@ -4,7 +4,6 @@ import '../models/data_models.dart';
 import '../models/supabase_models.dart';
 import 'map_data_controller.dart';
 
-// Make SupabaseController extend MapDataController
 class SupabaseController extends MapDataController {
   final SupabaseService _service = SupabaseService();
 
@@ -20,11 +19,9 @@ class SupabaseController extends MapDataController {
     await loadPurchases();
   }
 
-  // Override the getter to return supabase listings
   @override
   List<OpenDataPoint> get openDataPoints => userListings.isNotEmpty ? userListings : super.openDataPoints;
 
-  // ==================== LISTINGS ====================
 
   Future<void> loadListings() async {
     isLoading = true;
@@ -32,7 +29,6 @@ class SupabaseController extends MapDataController {
 
     try {
       final supabaseListings = await _service.getListings();
-      // Convert and store in userListings (inherited from MapDataController)
       userListings = supabaseListings.map((s) => s.toOpenDataPoint()).toList();
       isSynced = true;
     } catch (e) {
@@ -51,7 +47,6 @@ class SupabaseController extends MapDataController {
     try {
       final result = await _service.insertListing(listing);
       if (result != null) {
-        // Use parent's addListing or manage directly
         userListings.insert(0, result.toOpenDataPoint());
         super.addListing(result.toOpenDataPoint()); // This calls parent method
         notifyListeners();
@@ -76,7 +71,6 @@ class SupabaseController extends MapDataController {
     }
   }
 
-  // ==================== PURCHASES ====================
 
   Future<void> loadPurchases() async {
     try {
@@ -144,7 +138,6 @@ class SupabaseController extends MapDataController {
     }
   }
 
-  // ==================== SYNC ====================
 
   Future<void> syncData() async {
     await loadListings();

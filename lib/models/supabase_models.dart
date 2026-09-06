@@ -1,5 +1,3 @@
-// Supabase versions of your data models
-
 import 'data_models.dart';
 
 class SupabaseListing {
@@ -81,7 +79,6 @@ class SupabaseListing {
     };
   }
 
-  // Convert to your existing OpenDataPoint
   OpenDataPoint toOpenDataPoint() {
     return OpenDataPoint(
       id: id?.toString() ?? 'supabase_${DateTime.now().millisecondsSinceEpoch}',
@@ -189,7 +186,7 @@ class SupabasePurchase {
     };
   }
 
-  // Convert to your existing PurchasedItem
+
   PurchasedItem toPurchasedItem() {
     return PurchasedItem(
       id: listingId,

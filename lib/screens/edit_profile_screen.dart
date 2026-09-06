@@ -270,7 +270,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             key: formKey,
             child: Column(
               children: [
-                // Company Logo
                 GestureDetector(
                   onTap: _pickCompanyLogo,
                   child: CircleAvatar(
@@ -288,7 +287,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // Company Details
                 _buildField(label: 'Company Name *', controller: companyInput),
                 _buildField(label: 'Contact Person *', controller: repNameInput),
                 _buildField(
@@ -319,7 +317,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 const SizedBox(height: 8),
 
-                // Address Fields
                 _buildField(
                   label: "Line 1: Recipient's full name or company name *",
                   controller: addrLine1Input,
@@ -340,7 +337,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   validator: validatePostalCode,
                 ),
 
-                // State Dropdown
+
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: Column(
@@ -386,7 +383,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                 const SizedBox(height: 16),
 
-                // Save Button
                 SizedBox(
                   width: double.infinity,
                   height: 52,

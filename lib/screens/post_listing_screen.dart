@@ -108,7 +108,6 @@ class PostListingScreenState extends State<PostListingScreen> {
       final XFile? image = await picker.pickImage(source: source, imageQuality: 80);
       if (image != null) {
         setState(() {
-          // On web, the path is a URL that can be used directly
           listingImages.add(image.path);
         });
       }
@@ -144,7 +143,6 @@ class PostListingScreenState extends State<PostListingScreen> {
     });
   }
 
-  // Helper to build image preview for web
   Widget _buildImagePreview(String imagePath) {
     return Image.network(
       imagePath,
@@ -193,12 +191,11 @@ class PostListingScreenState extends State<PostListingScreen> {
       quantityTons: double.tryParse(quantityController.text) ?? 5.0,
       repName: repNameController.text.trim().isEmpty ? 'Representative' : repNameController.text.trim(),
       repPhone: repPhoneController.text.trim().isEmpty ? '+60 12-000 0000' : repPhoneController.text.trim(),
-      images: listingImages, // Store the image paths/URLs
+      images: listingImages,
     );
 
     widget.dataController.addListing(newListing);
 
-    // Clear form
     titleController.clear();
     quantityController.clear();
     priceController.clear();
@@ -249,14 +246,13 @@ class PostListingScreenState extends State<PostListingScreen> {
               ),
               const SizedBox(height: 20),
 
-              // Image Upload Section
+
               const Text(
                 'Upload Material Pictures',
                 style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0F382C)),
               ),
               const SizedBox(height: 8),
 
-              // Image Preview Grid
               if (listingImages.isNotEmpty)
                 Container(
                   height: 100,
@@ -330,7 +326,6 @@ class PostListingScreenState extends State<PostListingScreen> {
               ),
               const SizedBox(height: 18),
 
-              // Category Dropdown
               DropdownButtonFormField<String>(
                 value: selectedSector,
                 decoration: buildInputDecoration('Waste Category'),
@@ -339,21 +334,18 @@ class PostListingScreenState extends State<PostListingScreen> {
               ),
               const SizedBox(height: 18),
 
-              // Title Field
               TextField(
                 controller: titleController,
                 decoration: buildInputDecoration('Title / Item Name'),
               ),
               const SizedBox(height: 18),
 
-              // Address Field
               TextField(
                 controller: addressController,
                 decoration: buildInputDecoration('Facility Address'),
               ),
               const SizedBox(height: 18),
 
-              // State Dropdown
               DropdownButtonFormField<String>(
                 value: selectedState,
                 decoration: buildInputDecoration('Facility State'),
@@ -362,7 +354,6 @@ class PostListingScreenState extends State<PostListingScreen> {
               ),
               const SizedBox(height: 18),
 
-              // Quantity and Price
               Row(
                 children: [
                   Expanded(
@@ -384,22 +375,19 @@ class PostListingScreenState extends State<PostListingScreen> {
               ),
               const SizedBox(height: 18),
 
-              // Representative Name
+
               TextField(
                 controller: repNameController,
                 decoration: buildInputDecoration('Representative Name'),
               ),
               const SizedBox(height: 18),
 
-              // Representative Phone
               TextField(
                 controller: repPhoneController,
                 decoration: buildInputDecoration('Representative Phone'),
               ),
 
               const SizedBox(height: 40),
-
-              // Publish Button
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF1CB026),

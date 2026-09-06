@@ -10,7 +10,7 @@ class PurchasesScreen extends StatefulWidget {
 }
 
 class PurchasesScreenState extends State<PurchasesScreen> {
-  String filterStatus = 'All'; // 'All', 'Pending', 'Completed', 'Cancelled'
+  String filterStatus = 'All';
 
   @override
   void initState() {
@@ -62,7 +62,6 @@ class PurchasesScreenState extends State<PurchasesScreen> {
   Widget build(BuildContext context) {
     final purchases = widget.dataController.purchasedItems;
 
-    // Filter purchases based on status
     final filteredPurchases = purchases.where((item) {
       if (filterStatus == 'All') return true;
       if (filterStatus == 'Pending') return item.status == 'In Progress';
@@ -85,7 +84,6 @@ class PurchasesScreenState extends State<PurchasesScreen> {
               ),
               const SizedBox(height: 12),
 
-              // Filter Tabs
               Container(
                 height: 40,
                 child: ListView(
@@ -100,14 +98,12 @@ class PurchasesScreenState extends State<PurchasesScreen> {
               ),
               const SizedBox(height: 12),
 
-              // Count
               Text(
                 '${filteredPurchases.length} purchase${filteredPurchases.length != 1 ? 's' : ''}',
                 style: const TextStyle(color: Colors.black54, fontSize: 12),
               ),
               const SizedBox(height: 8),
 
-              // Purchases List
               Expanded(
                 child: filteredPurchases.isEmpty
                     ? Center(
@@ -166,7 +162,6 @@ class PurchasesScreenState extends State<PurchasesScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Header with Status
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -214,7 +209,6 @@ class PurchasesScreenState extends State<PurchasesScreen> {
                             ),
                             const SizedBox(height: 8),
 
-                            // Details
                             Text(
                               '${item.quantityTons.toStringAsFixed(1)} Tons',
                               style: const TextStyle(fontSize: 14),
@@ -250,7 +244,6 @@ class PurchasesScreenState extends State<PurchasesScreen> {
                               style: const TextStyle(fontSize: 11, color: Colors.grey),
                             ),
 
-                            // Action Buttons
                             if (isPending) ...[
                               const Divider(height: 16),
                               Row(

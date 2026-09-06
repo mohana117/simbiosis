@@ -56,7 +56,6 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // Helper for logo image - web compatible
   Widget _buildLogoImage() {
     if (logoPath != null && logoPath!.isNotEmpty) {
       return Image.network(
@@ -90,7 +89,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Profile Picture
+
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: const Color(0xFF0F382C),
@@ -112,7 +111,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                       style: const TextStyle(color: Colors.black54, fontSize: 14),
                     ),
                     const SizedBox(height: 8),
-                    // Edit Profile Button
+
                     OutlinedButton.icon(
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Color(0xFF0F382C)),
@@ -144,7 +143,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                   ],
                   const SizedBox(height: 24),
 
-                  // Guest Card
                   if (!isLoggedIn)
                     Card(
                       elevation: 2,
@@ -211,7 +209,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                       ),
                     )
                   else ...[
-                    // Profile Details Card
                     Card(
                       elevation: 2,
                       shape: RoundedRectangleBorder(
@@ -237,7 +234,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                             subtitle: Text(userData['phone']!),
                           ),
                           const Divider(height: 1),
-                          // Address with formatted display
                           ListTile(
                             leading: const Icon(Icons.location_on, color: Color(0xFF0F382C)),
                             title: const Text('Address'),
@@ -263,7 +259,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const SizedBox(height: 24),
 
-                    // Logout Button
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.redAccent,

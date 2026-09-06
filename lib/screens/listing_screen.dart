@@ -38,9 +38,7 @@ class ListingsScreenState extends State<ListingsScreen> {
     if (mounted) setState(() {});
   }
 
-  // Helper to build image for web compatibility
   Widget _buildListingImage(String imagePath) {
-    // Check if it's a data URL (base64) or blob URL
     if (imagePath.startsWith('data:image') || imagePath.startsWith('blob:')) {
       return Image.network(
         imagePath,
@@ -68,7 +66,6 @@ class ListingsScreenState extends State<ListingsScreen> {
         },
       );
     }
-    // For regular network URLs
     else if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
       return Image.network(
         imagePath,
@@ -96,7 +93,6 @@ class ListingsScreenState extends State<ListingsScreen> {
         },
       );
     }
-    // Fallback for other cases
     else {
       return Container(
         width: 140,
@@ -331,7 +327,6 @@ class ListingsScreenState extends State<ListingsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Images
                           if (item.images.isNotEmpty) ...[
                             SizedBox(
                               height: 120,
@@ -349,7 +344,6 @@ class ListingsScreenState extends State<ListingsScreen> {
                             ),
                             const SizedBox(height: 10),
                           ],
-                          // Title and Price
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
