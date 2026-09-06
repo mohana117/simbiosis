@@ -1,0 +1,153 @@
+import 'package:flutter/material.dart';
+import '../services/supabase_service.dart';
+import '../models/data_models.dart';
+import '../models/supabase_models.dart';
+import 'map_data_controller.dart';  // ← ADD THIS
+
+// Make SupabaseController extend MapDataController
+class SupabaseController extends MapDataController {
+  final SupabaseService _service = SupabaseService();
+
+  bool isLoading = false;
+  bool isSynced = false;
+
+  SupabaseController() {
+    init();
+  }
+
+  Future<void> init() async {
+    await loadListings();
+    await loadPurchases();
+  }
+
+  // Override the getter to return supabase listings
+  @override
+  List<OpenDataPoint> get openDataPoints => userListings.isNotEmpty ? userListings : super.openDataPoints;
+
+  // ==================== LISTINGS ====================
+
+  Future<void> loadListings() async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      final supabaseListings = await _service.getListings();
+      // Convert and store in userListings (inherited from MapDataController)
+      userListings = supabaseListings.map((s) => s.toOpenDataPoint()).toList();
+      isSynced = true;
+    } catch (e) {
+      print('Error loading listings: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  @override
+  void addListing(OpenDataPoint listing) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      final result = await _service.insertListing(listing);
+      if (result != null) {
+        // Use parent's addListing or manage directly
+        userListings.insert(0, result.toOpenDataPoint());
+        super.addListing(result.toOpenDataPoint()); // This calls parent method
+        notifyListeners();
+      }
+    } catch (e) {
+      print('Error adding listing: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteListing(int id) async {
+    try {
+      final success = await _service.deleteListing(id);
+      if (success) {
+        userListings.removeWhere((item) => item.id == id.toString());
+        notifyListeners();
+      }
+    } catch (e) {
+      print('Error deleting listing: $e');
+    }
+  }
+
+  // ==================== PURCHASES ====================
+
+  Future<void> loadPurchases() async {
+    try {
+      final supabasePurchases = await _service.getPurchases();
+      purchasedItems = supabasePurchases.map((s) => s.toPurchasedItem()).toList();
+      notifyListeners();
+    } catch (e) {
+      print('Error loading purchases: $e');
+    }
+  }
+
+  @override
+  void addPurchase(PurchasedItem item, double purchasedTons) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      final result = await _service.insertPurchase(item);
+      if (result != null) {
+        purchasedItems.insert(0, result.toPurchasedItem());
+
+        // Update quantity in listings (inherited from parent)
+        for (var list in [userListings, apiPoints]) {
+          final index = list.indexWhere((e) => e.id == item.id);
+          if (index != -1) {
+            list[index].quantityTons -= purchasedTons;
+            if (list[index].quantityTons < 0.5) {
+              list.removeAt(index);
+            }
+            break;
+          }
+        }
+        notifyListeners();
+      }
+    } catch (e) {
+      print('Error adding purchase: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  @override
+  void completePurchase(int index) async {
+    if (index >= 0 && index < purchasedItems.length) {
+      final item = purchasedItems[index];
+      if (item.status == 'In Progress') {
+        try {
+          // Find the purchase in Supabase
+          final supabasePurchases = await _service.getPurchases();
+          if (index < supabasePurchases.length) {
+            final supabaseId = supabasePurchases[index].id;
+            if (supabaseId != null) {
+              final success = await _service.updatePurchaseStatus(supabaseId, 'Completed');
+              if (success) {
+                item.status = 'Completed';
+                notifyListeners();
+              }
+            }
+          }
+        } catch (e) {
+          print('Error completing purchase: $e');
+        }
+      }
+    }
+  }
+
+  // ==================== SYNC ====================
+
+  Future<void> syncData() async {
+    await loadListings();
+    await loadPurchases();
+  }
+}
