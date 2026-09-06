@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/supabase_service.dart';
 import '../models/data_models.dart';
 import '../models/supabase_models.dart';
-import 'map_data_controller.dart';  // ← ADD THIS
+import 'map_data_controller.dart';
 
 // Make SupabaseController extend MapDataController
 class SupabaseController extends MapDataController {

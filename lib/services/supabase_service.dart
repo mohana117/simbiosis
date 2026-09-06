@@ -99,11 +99,13 @@ class SupabaseService {
 
   // Update a listing
   Future<SupabaseListing?> updateListing(SupabaseListing listing) async {
+    if (listing.id == null) return null; // Ensure ID is present
+
     try {
       final response = await client
           .from('listings')
           .update(listing.toJson())
-          .eq('id', listing.id)
+          .eq('id', listing.id!) // Safely pass non-null int
           .select();
 
       if (response.isNotEmpty) {
@@ -275,7 +277,7 @@ class SupabaseService {
 
   // Sign in
   Future<AuthResponse> signIn(String email, String password) async {
-    return await client.auth.signIn(
+    return await client.auth.signInWithPassword(
       email: email,
       password: password,
     );

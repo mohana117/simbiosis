@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/welcome_screen.dart';
 
-// TODO: Replace with your Supabase credentials
 const String supabaseUrl = 'YOUR_SUPABASE_URL';
 const String supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
 
@@ -14,11 +13,11 @@ void main() async {
     anonKey: supabaseAnonKey,
   );
 
-  runApp(const SymbiosisApp());
+  runApp(const SimbiosisApp());
 }
 
-class SymbiosisApp extends StatelessWidget {
-  const SymbiosisApp({super.key});
+class SimbiosisApp extends StatelessWidget {
+  const SimbiosisApp({super.key});
 
   @override
   Widget build(BuildContext context) {

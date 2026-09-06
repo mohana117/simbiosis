@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../controllers/supabase_controller.dart';
 import 'map_screen.dart';
-import 'listings_screen.dart';
+import 'listing_screen.dart';
 import 'post_listing_screen.dart';
 import 'purchases_screen.dart';
 import 'profile_screen.dart';
